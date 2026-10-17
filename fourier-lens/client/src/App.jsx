@@ -4,6 +4,7 @@ import Controls from '@/components/Controls'
 import History from '@/components/History'
 import Spectrum from '@/components/Spectrum'
 import ApiShapes from '@/components/ApiShapes'
+import FetchButton from '@/components/FetchButton'
 import Card from '@/shared/Card'
 import { useFourier } from '@/hooks/useFourier'
 import { useShapeHistory } from '@/hooks/useShapeHistory'
@@ -75,13 +76,17 @@ function App() {
         />
       </Card>
 
-      <Card title="API Shapes">
+      <Card title="API Shapes (auto-load with hook)">
         <ApiShapes
           shapes={apiShapes}
           loading={loading}
           error={error}
           onReload={reload}
         />
+      </Card>
+
+      <Card title="API Fetch (button)">
+        <FetchButton />
       </Card>
     </div>
   )
