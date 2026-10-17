@@ -3,14 +3,17 @@ import Canvas from '@/components/Canvas'
 import Controls from '@/components/Controls'
 import History from '@/components/History'
 import Spectrum from '@/components/Spectrum'
+import ApiShapes from '@/components/ApiShapes'
 import Card from '@/shared/Card'
 import { useFourier } from '@/hooks/useFourier'
 import { useShapeHistory } from '@/hooks/useShapeHistory'
+import { useShapes } from '@/hooks/useShapes'
 import './App.css'
 
 function App() {
   const { points, spectrum, addPoint, clear, load } = useFourier()
   const { shapes, push, reset, limit } = useShapeHistory()
+  const { shapes: apiShapes, loading, error, reload } = useShapes()
   const [message, setMessage] = useState('Draw a shape on the canvas.')
   const [warning, setWarning] = useState(false)
 
@@ -69,6 +72,15 @@ function App() {
           limit={limit}
           onLoad={handleLoad}
           onClear={handleClearHistory}
+        />
+      </Card>
+
+      <Card title="API Shapes">
+        <ApiShapes
+          shapes={apiShapes}
+          loading={loading}
+          error={error}
+          onReload={reload}
         />
       </Card>
     </div>
