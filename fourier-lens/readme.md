@@ -1,65 +1,38 @@
-# 🌊 Project: Fourier Lens (MVP)
+# Fourier Lens
 
-> **Концепция:** Веб-инструмент для сонификации (озвучивания) геометрических форм.
-> **Стек:** React, Node.js, Math Analysis, Digital Signal Processing (DSP).
-> **Цель:** Нарисовать форму -> Преобразовать её в спектр частот (Фурье) -> Услышать её тембр.
+## Lab 5 - API Integration
 
----
+This project demonstrates working with APIs in React by connecting to a backend service and displaying shape data.
 
-## 🛠 1. Технологический Стек (Strict MVP)
-
-Мы не используем тяжелые UI-библиотеки или базы данных. Только код.
+## Stack
 
 ### Client (Frontend)
-*   **Build Tool:** `Vite` (Быстрый старт, HMR).
-*   **Core:** `React.js` (Функциональные компоненты, Hooks).
-*   **Styling:** `Native CSS` (Flexbox/Grid).
-*   **Audio Engine:** `Tone.js` (Обертка над Web Audio API для управления осцилляторами).
-*   **Networking:** `Axios` (HTTP запросы).
+- **Build Tool:** Vite
+- **Core:** React (Functional Components, Hooks)
+- **Styling:** Native CSS (Flexbox/Grid)
+- **Networking:** Axios
 
 ### Server (Backend)
-*   **Runtime:** `Node.js`.
-*   **Framework:** `Express` (REST API).
-*   **Database:** `In-Memory Array` (Для MVP храним данные в переменной на сервере. Позже заменим на MongoDB/Postgres).
-*   **Utilities:** `Cors` (Разрешение запросов с фронтенда).
+- **Runtime:** Node.js
+- **Framework:** Express
+- **Database:** In-Memory Array
+- **Utilities:** Cors
 
----
-
-## 📐 2. Алгоритмы и Математика
-
-Это "сердце" проекта. Вся логика пишется на чистом JavaScript/TypeScript без библиотек.
-
-### A. Векторизация (Geometry)
-*   **Задача:** Превратить дрожащую линию мыши в чистый математический сигнал.
-*   **Алгоритм:** Центрирование + Перевод в полярные координаты `(r, theta)`.
-
-### B. Ресэмплинг (Interpolation)
-*   **Проблема:** Мышь дает точки с разной скоростью. Нам нужен фиксированный массив (например, \(N=128\)).
-*   **Решение:** Линейная интерполяция между точками, чтобы получить значения радиуса через равные промежутки угла.
-
-### C. Дискретное Преобразование Фурье (DFT)
-*   **Задача:** Разложить массив радиусов на сумму синусоид.
-*   **Формула:** \(X_k = \sum_{n=0}^{N-1} x_n \cdot e^{-i 2\pi k n / N}\)
-*   **Выход:** Массив `Real` (косинусы) и `Imag` (синусы). Это "ДНК" нашего звука.
-
----
-
-## 🏗 3. Архитектура Проекта
+## Architecture
 
 ```text
 /fourier-lens
-├── /client                 # Frontend
+├── /client
 │   ├── /src
+│   │   ├── /api            # API client and request functions
 │   │   ├── /components
-│   │   │   ├── Canvas.jsx      # Рисование и захват координат
-│   │   │   ├── Controls.jsx    # Кнопки "Play", "Save"
-│   │   │   └── Spectrum.jsx    # Визуализация (столбики частот)
+│   │   ├── /hooks          # Custom hooks
+│   │   ├── /shared         # Shared components
 │   │   ├── /utils
-│   │   │   ├── math.js         # DFT и геометрия
-│   │   │   └── sound.js        # Tone.js логика
 │   │   └── App.jsx
 │   └── vite.config.js
 │
-└── /server                 # Backend
-    ├── index.js            # Express сервер + API роуты
+└── /server
+    ├── index.js            # Express server + API routes
     └── package.json
+```
