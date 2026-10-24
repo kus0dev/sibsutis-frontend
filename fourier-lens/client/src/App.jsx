@@ -11,7 +11,7 @@ import './App.css'
 
 function App() {
   const { points, spectrum, addPoint, clear, load } = useFourier()
-  const { shapes, loading, error, saving, reload, save, clear } = useShapes()
+  const { shapes, loading, error, saving, reload, save, clear: clearShapes } = useShapes()
   const [message, setMessage] = useState('Draw a shape on the canvas.')
   const [warning, setWarning] = useState(false)
 
@@ -44,7 +44,7 @@ function App() {
   }
 
   function handleClearHistory() {
-    clear()
+    clearShapes()
     setWarning(false)
     setMessage('History cleared.')
   }
