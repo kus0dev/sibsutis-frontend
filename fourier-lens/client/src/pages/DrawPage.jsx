@@ -69,9 +69,11 @@ function DrawPage() {
       <Card title="Settings">
         <Settings />
       </Card>
-      <Card title="Spectrum">
-        {!showSpectrum ? <p className="empty">Spectrum disabled.</p> : <Spectrum spectrum={spectrum} />}
-      </Card>
+      {showSpectrum && (
+        <Card title="Spectrum">
+          <Spectrum spectrum={spectrum} />
+        </Card>
+      )}
     </div>
   )
 }
