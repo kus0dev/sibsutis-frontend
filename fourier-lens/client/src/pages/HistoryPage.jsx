@@ -2,15 +2,14 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import History from '@/components/History'
 import Card from '@/shared/Card'
-import { useShapes } from '@/hooks/useShapes'
+import { useShapesQuery } from '@/hooks/useShapesQuery'
 
 function HistoryPage() {
-  const { shapes, loading, error, saving, reload, clear: clearShapes } = useShapes()
+  const { shapes, loading, error, saving, reload, clear: clearShapes } = useShapesQuery()
   const navigate = useNavigate()
   const [message, setMessage] = useState('')
 
   function handleLoad(shapePoints) {
-    // Share via navigation state
     navigate('/', { state: { points: shapePoints } })
     setMessage('Loaded shape, go to Draw page.')
   }
