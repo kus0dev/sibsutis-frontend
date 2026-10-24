@@ -47,6 +47,12 @@ function App() {
     setMessage('History cleared.')
   }
 
+  function handleLoadFromApi(pointsToLoad) {
+    load(pointsToLoad)
+    setWarning(false)
+    setMessage('Shape loaded from API')
+  }
+
   return (
     <div className="container">
       <h1 className="page-title">Fourier Lens</h1>
@@ -82,11 +88,12 @@ function App() {
           loading={loading}
           error={error}
           onReload={reload}
+          onLoad={handleLoadFromApi}
         />
       </Card>
 
       <Card title="API Fetch (button)">
-        <FetchButton />
+        <FetchButton onLoad={handleLoadFromApi} />
       </Card>
     </div>
   )
