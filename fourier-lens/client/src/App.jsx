@@ -3,30 +3,32 @@ import Canvas from '@/components/Canvas'
 import Controls from '@/components/Controls'
 import History from '@/components/History'
 import Spectrum from '@/components/Spectrum'
-import ApiShapes from '@/components/ApiShapes'
 import FetchButton from '@/components/FetchButton'
 import Card from '@/shared/Card'
 import { useFourier } from '@/hooks/useFourier'
-import { useShapeHistory } from '@/hooks/useShapeHistory'
 import { useShapes } from '@/hooks/useShapes'
 import './App.css'
 
 function App() {
   const { points, spectrum, addPoint, clear, load } = useFourier()
-  const { shapes, push, reset, limit } = useShapeHistory()
-  const { shapes: apiShapes, loading, error, reload } = useShapes()
+  const { shapes, loading, error, saving, reload, save, clear: clearShapes } = useShapes()
   const [message, setMessage] = useState('Draw a shape on the canvas.')
   const [warning, setWarning] = useState(false)
 
-  function handleSave() {
-    const willDropOldest = shapes.length >= limit
-    push(points)
-    setWarning(willDropOldest)
-    setMessage(
-      willDropOldest
-        ? `History is full. The first shape was removed to store the new one.`
-        : 'Saved to history.',
-    )
+  async function handleSave() {
+    if (points.length < 3) {
+      setWarning(true)
+      setMessage('Draw at least 3 points to save.')
+      return
+    }
+    try {
+      await save(points)
+      setWarning(false)
+      setMessage('Saved to server.')
+    } catch {
+      setWarning(true)
+      setMessage('Failed to save. Check server.')
+    }
   }
 
   function handleClear() {
@@ -35,14 +37,14 @@ function App() {
     setMessage('Canvas cleared.')
   }
 
-  function handleLoad(shape) {
-    load(shape)
+  function handleLoad(shapePoints) {
+    load(shapePoints)
     setWarning(false)
     setMessage('Shape loaded from history.')
   }
 
   function handleClearHistory() {
-    reset()
+    clearShapes()
     setWarning(false)
     setMessage('History cleared.')
   }
@@ -57,6 +59,7 @@ function App() {
           pointCount={points.length}
           onClear={handleClear}
           onSave={handleSave}
+          saving={saving}
         />
         <p className={warning ? 'message message-warning' : 'message'}>
           {message}
@@ -70,23 +73,17 @@ function App() {
       <Card title="History">
         <History
           shapes={shapes}
-          limit={limit}
+          loading={loading}
+          error={error}
+          saving={saving}
           onLoad={handleLoad}
+          onReload={reload}
           onClear={handleClearHistory}
         />
       </Card>
 
-      <Card title="API Shapes (auto-load with hook)">
-        <ApiShapes
-          shapes={apiShapes}
-          loading={loading}
-          error={error}
-          onReload={reload}
-        />
-      </Card>
-
       <Card title="API Fetch (button)">
-        <FetchButton />
+        <FetchButton onLoad={handleLoad} />
       </Card>
     </div>
   )
