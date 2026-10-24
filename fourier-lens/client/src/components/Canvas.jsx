@@ -18,16 +18,27 @@ function Canvas({ points, onAddPoint, onClear }) {
 
   function handlePointerDown(event) {
     drawing.current = true
-    surface.current.setPointerCapture(event.pointerId)
+    if (surface.current.setPointerCapture) {
+      surface.current.setPointerCapture(event.pointerId)
+    }
     onAddPoint(positionOf(event))
   }
 
   function handlePointerMove(event) {
-    if (drawing.current) onAddPoint(positionOf(event))
+    if (drawing.current) {
+      onAddPoint(positionOf(event))
+    }
   }
 
-  function stopDrawing() {
+  function stopDrawing(event) {
     drawing.current = false
+    if (surface.current && surface.current.releasePointerCapture && event?.pointerId) {
+      try {
+        surface.current.releasePointerCapture(event.pointerId)
+      } catch (e) {
+        // ignore
+      }
+    }
   }
 
   const path = points
