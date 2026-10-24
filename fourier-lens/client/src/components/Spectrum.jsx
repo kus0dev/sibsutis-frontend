@@ -1,12 +1,4 @@
-import { useSettingsStore } from '@/store/settingsStore'
-
 function Spectrum({ spectrum }) {
-  const showSpectrum = useSettingsStore((state) => state.showSpectrum)
-
-  if (!showSpectrum) {
-    return <p className="empty">Spectrum disabled.</p>
-  }
-
   if (spectrum.length === 0) {
     return <p className="empty">Draw a shape to see its spectrum.</p>
   }
