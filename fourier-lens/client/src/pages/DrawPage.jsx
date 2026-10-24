@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Canvas from '@/components/Canvas'
 import Controls from '@/components/Controls'
 import Spectrum from '@/components/Spectrum'
@@ -7,6 +7,7 @@ import Card from '@/shared/Card'
 import Settings from '@/components/Settings'
 import { useFourier } from '@/hooks/useFourier'
 import { useShapesQuery } from '@/hooks/useShapesQuery'
+import { useSettingsStore } from '@/store/settingsStore'
 
 function DrawPage() {
   const { points, spectrum, addPoint, clear, load } = useFourier()
@@ -14,14 +15,17 @@ function DrawPage() {
   const [message, setMessage] = useState('Draw a shape on the canvas.')
   const [warning, setWarning] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+  const showSpectrum = useSettingsStore((state) => state.showSpectrum)
 
   useEffect(() => {
     if (location.state && Array.isArray(location.state.points)) {
       load(location.state.points)
       setWarning(false)
       setMessage('Shape loaded from history.')
+      navigate(location.pathname, { replace: true, state: null })
     }
-  }, [location.state, load])
+  }, [location.state, load, navigate, location.pathname])
 
   function handleClear() {
     clear()
@@ -66,7 +70,7 @@ function DrawPage() {
         <Settings />
       </Card>
       <Card title="Spectrum">
-        <Spectrum spectrum={spectrum} />
+        {!showSpectrum ? <p className="empty">Spectrum disabled.</p> : <Spectrum spectrum={spectrum} />}
       </Card>
     </div>
   )
