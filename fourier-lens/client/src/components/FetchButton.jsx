@@ -11,8 +11,8 @@ function FetchButton({ onLoad }) {
     setLoading(true);
     setError(null);
     try {
-      const result = await fetchShapes('normal');
-      setData(result);
+      const result = await fetchShapes();
+      setData(Array.isArray(result) ? result : []);
     } catch (err) {
       setError(err);
     } finally {
