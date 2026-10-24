@@ -193,3 +193,15 @@
 .switch-label {
     color: #faede3;
 }
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
