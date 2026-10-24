@@ -9,29 +9,13 @@ function ApiShapes({ shapes, loading, error, onReload, onLoad }) {
     return (
       <div>
         <p className="message message-warning">Error loading shapes from API.</p>
-        <Button onClick={() => onReload()}>Retry</Button>
+        <Button onClick={() => onReload && onReload()}>Retry</Button>
       </div>
     );
   }
 
   if (!shapes || shapes.length === 0) {
-    return (
-      <div>
-        <p className="empty">No shapes available from API.</p>
-        {/* dev-инструмент для защиты лабы, не продакшн */}
-        <div className="controls">
-          <Button variant="ghost" onClick={() => onReload('normal')}>
-            Normal
-          </Button>
-          <Button variant="ghost" onClick={() => onReload('empty')}>
-            Empty
-          </Button>
-          <Button variant="ghost" onClick={() => onReload('error')}>
-            Error
-          </Button>
-        </div>
-      </div>
-    );
+    return <p className="empty">No shapes available from API.</p>;
   }
 
   return (
@@ -46,18 +30,6 @@ function ApiShapes({ shapes, loading, error, onReload, onLoad }) {
             {shape.name}
           </Button>
         ))}
-      </div>
-      {/* dev-инструмент для защиты лабы, не продакшн */}
-      <div className="controls">
-        <Button variant="ghost" onClick={() => onReload('normal')}>
-          Normal
-        </Button>
-        <Button variant="ghost" onClick={() => onReload('empty')}>
-          Empty
-        </Button>
-        <Button variant="ghost" onClick={() => onReload('error')}>
-          Error
-        </Button>
       </div>
     </div>
   );
