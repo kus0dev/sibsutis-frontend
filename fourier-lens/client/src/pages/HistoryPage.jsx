@@ -11,7 +11,6 @@ function HistoryPage() {
 
   function handleLoad(shapePoints) {
     navigate('/', { state: { points: shapePoints } })
-    setMessage('Loaded shape, go to Draw page.')
   }
 
   function handleClearHistory() {
