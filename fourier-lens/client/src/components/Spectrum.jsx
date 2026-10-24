@@ -4,7 +4,7 @@ function Spectrum({ spectrum }) {
   const showSpectrum = useSettingsStore((state) => state.showSpectrum)
 
   if (!showSpectrum) {
-    return <p className="empty">Spectrum hidden in settings.</p>
+    return null
   }
 
   if (spectrum.length === 0) {
