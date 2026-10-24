@@ -5,7 +5,6 @@ export function useShapes() {
   const [shapes, setShapes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [mode, setMode] = useState('normal');
   const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
@@ -15,9 +14,9 @@ export function useShapes() {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchShapes(mode);
+        const data = await fetchShapes();
         if (!cancelled) {
-          setShapes(data);
+          setShapes(Array.isArray(data) ? data : []);
         }
       } catch (err) {
         if (!cancelled) {
@@ -35,15 +34,9 @@ export function useShapes() {
     return () => {
       cancelled = true;
     };
-  }, [mode, refresh]);
+  }, [refresh]);
 
-  const reload = (nextMode) => {
-    if (nextMode !== undefined && nextMode !== null) {
-      if (nextMode !== mode) {
-        setMode(nextMode);
-        return;
-      }
-    }
+  const reload = () => {
     setRefresh((r) => r + 1);
   };
 
