@@ -4,7 +4,7 @@ function Spectrum({ spectrum }) {
   const showSpectrum = useSettingsStore((state) => state.showSpectrum)
 
   if (!showSpectrum) {
-    return null
+    return <p className="empty">Spectrum disabled.</p>
   }
 
   if (spectrum.length === 0) {
