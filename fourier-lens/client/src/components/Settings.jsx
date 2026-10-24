@@ -1,5 +1,5 @@
 import { useSettingsStore } from '@/store/settingsStore'
-import Button from '@/shared/Button'
+import Switch from '@/shared/Switch'
 
 function Settings() {
   const showGrid = useSettingsStore((state) => state.showGrid)
@@ -9,12 +9,8 @@ function Settings() {
 
   return (
     <div className="settings">
-      <Button variant="ghost" onClick={toggleGrid}>
-        Grid: {showGrid ? 'On' : 'Off'}
-      </Button>
-      <Button variant="ghost" onClick={toggleSpectrum}>
-        Spectrum: {showSpectrum ? 'On' : 'Off'}
-      </Button>
+      <Switch checked={showGrid} onChange={toggleGrid} label="Grid" />
+      <Switch checked={showSpectrum} onChange={toggleSpectrum} label="Spectrum" />
     </div>
   )
 }
