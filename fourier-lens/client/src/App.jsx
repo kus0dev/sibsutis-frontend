@@ -67,7 +67,7 @@ function App() {
       if (reload) {
         reload()
       }
-    } catch (err) {
+    } catch {
       setWarning(true)
       setMessage('Failed to save to server.')
     }
