@@ -9,6 +9,7 @@ import Card from '@/shared/Card'
 import { useFourier } from '@/hooks/useFourier'
 import { useShapeHistory } from '@/hooks/useShapeHistory'
 import { useShapes } from '@/hooks/useShapes'
+import { saveShape } from '@/api/shapesApi'
 import './App.css'
 
 function App() {
@@ -53,6 +54,25 @@ function App() {
     setMessage('Shape loaded from API')
   }
 
+  async function handleSaveToServer() {
+    if (points.length < 3) {
+      setWarning(true)
+      setMessage('Draw at least 3 points to save.')
+      return
+    }
+    try {
+      await saveShape(`Shape ${Date.now()}`, points)
+      setWarning(false)
+      setMessage('Saved to server.')
+      if (reload) {
+        reload()
+      }
+    } catch (err) {
+      setWarning(true)
+      setMessage('Failed to save to server.')
+    }
+  }
+
   return (
     <div className="container">
       <h1 className="page-title">Fourier Lens</h1>
@@ -64,6 +84,11 @@ function App() {
           onClear={handleClear}
           onSave={handleSave}
         />
+        <div className="controls">
+          <button className="btn" onClick={handleSaveToServer}>
+            Save to server
+          </button>
+        </div>
         <p className={warning ? 'message message-warning' : 'message'}>
           {message}
         </p>
@@ -82,7 +107,7 @@ function App() {
         />
       </Card>
 
-      <Card title="API Shapes (auto-load with hook)">
+      <Card title="API Shapes">
         <ApiShapes
           shapes={apiShapes}
           loading={loading}
