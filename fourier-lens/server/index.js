@@ -19,18 +19,19 @@ app.post('/api/shapes', (req, res) => {
   if (!Array.isArray(points) || points.length < 3) {
     return res.status(400).json({ message: 'Invalid points' });
   }
+  const shapeName = name && String(name).trim() ? String(name).trim() : `Shape ${shapes.length + 1}`;
   const shape = {
     id: String(nextId++),
-    name: name && String(name).trim() ? String(name).trim() : `Shape ${shapes.length + 1}`,
+    name: shapeName,
     points,
   };
   shapes.push(shape);
   return res.status(201).json(shape);
 });
 
-// dev-only for convenient demo
-app.get('/api/shapes/error', (req, res) => {
-  res.status(500).json({ message: 'Simulated error' });
+app.delete('/api/shapes', (req, res) => {
+  shapes = [];
+  return res.json({ ok: true });
 });
 
 app.listen(PORT, () => {
