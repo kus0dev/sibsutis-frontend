@@ -9,6 +9,7 @@ app.use(express.json());
 
 let shapes = [];
 let nextId = 1;
+const MAX_SHAPES = 50;
 
 app.get('/api/shapes', (req, res) => {
   res.json(shapes);
@@ -26,6 +27,9 @@ app.post('/api/shapes', (req, res) => {
     points,
   };
   shapes.push(shape);
+  if (shapes.length > MAX_SHAPES) {
+    shapes = shapes.slice(shapes.length - MAX_SHAPES);
+  }
   return res.status(201).json(shape);
 });
 
