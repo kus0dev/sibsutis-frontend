@@ -1,10 +1,12 @@
 import { useRef } from 'react'
+import { useSettingsStore } from '@/store/settingsStore'
 
 const SIZE = 320
 
 function Canvas({ points, onAddPoint, onClear }) {
   const drawing = useRef(false)
   const surface = useRef(null)
+  const showGrid = useSettingsStore((state) => state.showGrid)
 
   function positionOf(event) {
     const rect = surface.current.getBoundingClientRect()
@@ -43,8 +45,12 @@ function Canvas({ points, onAddPoint, onClear }) {
       onPointerLeave={stopDrawing}
       onDoubleClick={onClear}
     >
-      <line className="axis" x1={SIZE / 2} y1="0" x2={SIZE / 2} y2={SIZE} />
-      <line className="axis" x1="0" y1={SIZE / 2} x2={SIZE} y2={SIZE / 2} />
+      {showGrid && (
+        <>
+          <line className="axis" x1={SIZE / 2} y1="0" x2={SIZE / 2} y2={SIZE} />
+          <line className="axis" x1="0" y1={SIZE / 2} x2={SIZE} y2={SIZE / 2} />
+        </>
+      )}
       {points.length > 1 && <polyline className="trace" points={path} />}
     </svg>
   )
