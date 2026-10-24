@@ -135,3 +135,17 @@
     flex-wrap: wrap;
     gap: 8px;
 }
+
+.nav {
+    display: flex;
+    gap: 12px;
+}
+
+.nav a {
+    color: #faede3;
+    text-decoration: none;
+}
+
+.nav a.active {
+    color: #a964d6;
+}
