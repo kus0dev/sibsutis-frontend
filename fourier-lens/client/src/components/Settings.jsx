@@ -9,8 +9,14 @@ function Settings() {
 
   return (
     <div className="settings">
-      <Switch checked={showGrid} onChange={toggleGrid} label="Grid" />
-      <Switch checked={showSpectrum} onChange={toggleSpectrum} label="Spectrum" />
+      <div className="setting-row">
+        <span>Grid</span>
+        <Switch checked={showGrid} onChange={toggleGrid} />
+      </div>
+      <div className="setting-row">
+        <span>Spectrum</span>
+        <Switch checked={showSpectrum} onChange={toggleSpectrum} />
+      </div>
     </div>
   )
 }
